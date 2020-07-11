@@ -1,8 +1,8 @@
 pipeline {
     agent any
     environment{
-        DOCKER_HUB_URL = 47.110.58.173:8080
-        DOCKER_IMAGE_NAME = nginx_test
+        DOCKER_HUB_URL = '47.110.58.173:8080'
+        DOCKER_IMAGE_NAME = 'nginx_test'
         DOCKER_IMAGE_TAG = sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
     }
     parameters {
@@ -10,13 +10,6 @@ pipeline {
         string(name:'BUILD_URL_FOR_BODY',defaultValue:"${BUILD_URL}",description:'build uri for body')
     }  
     stages {
-        stage('Checkout') {
-            steps {
-                echo 'get source code from github or gitlab project'
-                checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '1c8c17e4-1732-4789-b935-9e8e036cf707', url: 'https://github.com.cnpmjs.org/braior/dockerfile.git']]])
-            }
-        }
-
         stage('Build') {
             steps {
                 echo 'Start compiling and build'
