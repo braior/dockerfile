@@ -13,7 +13,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Start compiling and build'
-                docker build -t ${DOCKER_HUB_URL}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} -f Dockerfile .
+                docker build -t ${DOCKER_HUB_URL}\/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} -f Dockerfile .
             }
         }
 
