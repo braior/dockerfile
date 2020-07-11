@@ -4,7 +4,7 @@ pipeline {
         dockerRegistryUrl = '47.110.58.173:8080'
         imageEndpoint = 'nginx_test'
         imageTag = sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
-        image = "${dockerRegistryUrl}/${imageEndpoint}"
+        image = "${dockerRegistryUrl}/${imageEndpoint}:${imageTag}"
     }
     parameters {
         string(name:'BRANCH_FOR_BODY',defaultValue:"${BRANCH_NAME}",description:'parameters used by ding talk')
@@ -14,7 +14,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Start compiling and build'
-                docker build -t ${image}:${imageTag} -f Dockerfile .
+                sh 'docker build -t ${image} -f Dockerfile .'
             }
         }
 
@@ -22,17 +22,15 @@ pipeline {
             steps {
                 withDockerRegistry(credentialsId: 'd5be4e40-5ed7-42f6-a0ae-83c69c71d9ab', url: '47.110.58.173:8080') {
                    echo '将本地Docker镜像推送到Harbor镜像仓库' 
-                   docker push ${image}:${imageTag}
+                   sh 'docker push ${image}'
                 }
             }  
         }
 
         stage('Clean') {
            steps {
-               echo '清理Maven工程'
-               sh 'cd hellojib && mvn clean'
                echo '删除镜像'
-               sh 'docker rmi bolingcavalry/hellojib:0.0.1-SNAPSHOT 192.168.50.167/library/hellojib:0.0.1-SNAPSHOT'
+               sh 'docker rmi ${image}'
                echo '清理完毕'
            }
         } 
