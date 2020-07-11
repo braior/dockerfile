@@ -28,7 +28,7 @@ pipeline {
   }
   environment {
     DOCKER_DEPLOY_URI = 'http://nginx.test.shiji.com'
-    DOCKER_IMAGE_NAME = 'docker-hub.nooboh.com/alpine_nginx'
+    DOCKER_IMAGE_NAME = '47.110.58.173:8080/alpine_nginx'
     DOCKER_SERVICE_NAME = 'TestService'
   }
 }
