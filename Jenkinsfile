@@ -1,9 +1,10 @@
 pipeline {
     agent any
     environment{
-        DOCKER_HUB_URL = '47.110.58.173:8080'
-        DOCKER_IMAGE_NAME = 'nginx_test'
-        DOCKER_IMAGE_TAG = sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
+        dockerRegistryUrl = '47.110.58.173:8080'
+        imageEndpoint = 'nginx_test'
+        imageTag = sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
+        image = "${dockerRegistryUrl}/${imageEndpoint}"
     }
     parameters {
         string(name:'BRANCH_FOR_BODY',defaultValue:"${BRANCH_NAME}",description:'parameters used by ding talk')
@@ -13,7 +14,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Start compiling and build'
-                docker build -t ${DOCKER_HUB_URL}\/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} -f Dockerfile .
+                docker build -t ${image}:${imageTag} -f Dockerfile .
             }
         }
 
@@ -21,7 +22,7 @@ pipeline {
             steps {
                 withDockerRegistry(credentialsId: 'd5be4e40-5ed7-42f6-a0ae-83c69c71d9ab', url: '47.110.58.173:8080') {
                    echo '将本地Docker镜像推送到Harbor镜像仓库' 
-                   docker push ${DOCKER_HUB_URL}/${DOCKER_IMAGE_NAME}:{DOCKER_IMAGE_TAG}
+                   docker push ${image}:${imageTag}
                 }
             }  
         }
