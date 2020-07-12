@@ -6,10 +6,10 @@ pipeline {
         imageTag = sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
         image = "${dockerRegistryUrl}/${imageEndpoint}:${imageTag}"
     }
-    parameters {
-        string(name:'BRANCH_FOR_BODY',defaultValue:"${BRANCH_NAME}",description:'parameters used by ding talk')
-        string(name:'BUILD_URL_FOR_BODY',defaultValue:"${BUILD_URL}",description:'build uri for body')
-    }  
+    // parameters {
+    //     string(name:'BRANCH_FOR_BODY',defaultValue:"${BRANCH_NAME}",description:'parameters used by ding talk')
+    //     string(name:'BUILD_URL_FOR_BODY',defaultValue:"${BUILD_URL}",description:'build uri for body')
+    // }  
     stages {
         stage('Build') {
             steps {
