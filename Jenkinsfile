@@ -1,8 +1,8 @@
 pipeline {
     agent any
     environment{
-        dockerRegistryUrl = '47.110.58.173:8080'
-        imageEndpoint = 'alpine_nginx'
+        dockerRegistryUrl = '47.110.58.173:8080/demon'
+        imageEndpoint = 'nginx'
         imageTag = sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
         image = "${dockerRegistryUrl}/${imageEndpoint}:${imageTag}"
     }
