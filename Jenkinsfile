@@ -35,12 +35,12 @@ pipeline {
            }
         } 
     }
-    post {
-        success {
-          sh 'sh notice.sh "test生产环境镜像推送成功通知" "nginx-test" "推送镜像成功"  ${BRANCH_NAME} ${BUILD_URL}'
-        }
-        failure{
-          sh 'sh notice.sh "test生产环境镜像推送失败通知" "nginx-test" "推送镜像失败"  ${BRANCH_NAME} ${BUILD_URL}'
-        }
-    }
+    #post {
+    #    success {
+    #      sh 'sh notice.sh "test生产环境镜像推送成功通知" "nginx-test" "推送镜像成功"  ${BRANCH_NAME} ${BUILD_URL}'
+    #    }
+    #    failure{
+    #      sh 'sh notice.sh "test生产环境镜像推送失败通知" "nginx-test" "推送镜像失败"  ${BRANCH_NAME} ${BUILD_URL}'
+    #    }
+    #}
 }
