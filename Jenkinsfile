@@ -20,7 +20,7 @@ pipeline {
 
         stage('Push') {
             steps {
-                withDockerRegistry(credentialsId: 'd5be4e40-5ed7-42f6-a0ae-83c69c71d9ab', url: '47.110.58.173:8080') {
+                withDockerRegistry(credentialsId: 'd5be4e40-5ed7-42f6-a0ae-83c69c71d9ab', url: 'http://47.110.58.173:8080') {
                    echo '将本地Docker镜像推送到Harbor镜像仓库' 
                    sh 'docker push ${image}'
                 }
