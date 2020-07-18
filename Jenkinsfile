@@ -6,10 +6,12 @@ pipeline {
         imageTag = sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
         image = "${dockerRegistryUrl}/${imageEndpoint}:${imageTag}"
     }
-    // parameters {
-    //     string(name:'BRANCH_FOR_BODY',defaultValue:"${BRANCH_NAME}",description:'parameters used by ding talk')
-    //     string(name:'BUILD_URL_FOR_BODY',defaultValue:"${BUILD_URL}",description:'build uri for body')
-    // }  
+
+    parameters {
+        string(name:'BRANCH_FOR_BODY',defaultValue:"${BRANCH_NAME}",description:'parameters used by ding talk')
+        string(name:'BUILD_URL_FOR_BODY',defaultValue:"${BUILD_URL}",description:'build uri for body')
+    }
+  
     stages {
         stage('Build') {
             steps {
@@ -35,12 +37,13 @@ pipeline {
            }
         } 
     }
-    // post {
-    //     success {
-    //       sh 'sh notice.sh "test生产环境镜像推送成功通知" "nginx-test" "推送镜像成功"  ${BRANCH_NAME} ${BUILD_URL}'
-    //     }
-    //     failure{
-    //       sh 'sh notice.sh "test生产环境镜像推送失败通知" "nginx-test" "推送镜像失败"  ${BRANCH_NAME} ${BUILD_URL}'
-    //     }
-    // }
+
+    post {
+        success {
+            sh './notice -T "text" -m "监控告警：分支: ${BRANCH_NAME} 仓库:  ${BUILD_URL} 版本: ${image}", -t "test生产环境镜像推送成功通知"'
+        }
+        failure{
+            sh './notice -T "text" -m "监控告警：分支: ${BRANCH_NAME} 仓库:  ${BUILD_URL} 版本: ${image}", -t "test生产环境镜像推送失败通知"'
+        }
+    }
 }
