@@ -48,10 +48,10 @@ pipeline {
 
     post {
         success {
-            sh './notice -T "text" -m "监控告警：分支: ${BRANCH_TAG} 仓库:  ${BUILD_URL} 版本: ${image}", -t "test生产环境镜像推送成功通知"'
+            sh './notice -T "text" -m "监控告警：分支: ${BRANCH_TAG} 仓库:  ${BUILD_URL} 版本: ${image}" -t "test生产环境镜像推送成功通知"'
         }
-        failure{
-            sh './notice -T "text" -m "监控告警：分支: ${BRANCH_TAG} 仓库:  ${BUILD_URL} 版本: ${image}", -t "test生产环境镜像推送失败通知"'
+        failure {
+            sh './notice -T "text" -m "监控告警：分支: ${BRANCH_TAG} 仓库:  ${BUILD_URL} 版本: ${image}" -t "test生产环境镜像推送失败通知"'
         }
     }
 }
