@@ -8,6 +8,17 @@ pipeline {
     }
 
     parameters {
+        gitParameter name: 'BRANCH_TAG', 
+                     type: 'PT_BRANCH_TAG',
+                     branchFilter: 'origin/(.*)',
+                     defaultValue: 'master',
+                     selectedValue: 'DEFAULT',
+                     sortMode: 'DESCENDING_SMART',
+		     description: 'Select your branch or tag.'
+        choice(name: 'SonarQube', choices: ['False','True'],description: '')				 
+    }
+
+    parameters {
         string(name:'BRANCH_FOR_BODY',defaultValue:"${BRANCH_NAME}",description:'parameters used by ding talk')
         string(name:'BUILD_URL_FOR_BODY',defaultValue:"${BUILD_URL}",description:'build uri for body')
     }
