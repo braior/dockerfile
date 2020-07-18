@@ -21,18 +21,6 @@ pipeline {
 
   
     stages {
-
-        stage('Checkout SCM') {
-            steps {
-                checkout([$class: 'GitSCM',
-                          branches: [[name: '${params.BRANCH_TAG}']],
-                          doGenerateSubmoduleConfigurations: false,
-                          extensions: [],
-                          submoduleCfg: [],
-                          userRemoteConfigs: [[credentialsId: '1c8c17e4-1732-4789-b935-9e8e036cf707', url: 'https://github.com.cnpmjs.org/braior/dockerfile.git']]])
-            }
-        }
-
         stage('Build') {
             steps {
                 echo 'Start compiling and build'
